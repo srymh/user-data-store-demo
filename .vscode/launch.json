@@ -1,0 +1,64 @@
+{
+  // IntelliSense を使用して利用可能な属性を学べます。
+  // 既存の属性の説明をホバーして表示します。
+  // 詳細情報は次を確認してください: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      // Debug main process
+      // --remote-debugging-port=9223: for "Attach Debugger Renderer Process"
+      "name": "Launch Debugger Main Process",
+      "request": "launch",
+      "type": "node",
+      "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/electron",
+      "windows": {
+        "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/electron.cmd"
+      },
+      "args": ["--inspect=5858", "--remote-debugging-port=9223", "."],
+      "outFiles": ["${workspaceFolder}/build/static/**/*.js"]
+    },
+    {
+      // Debug renderer process
+      // This has to be used with "Launch Debugger Main Process".
+      "name": "Attach Debugger Renderer Process",
+      "request": "attach",
+      "type": "chrome",
+      "port": 9223,
+      "webRoot": "${workspaceFolder}",
+      "timeout": 30000
+    },
+    {
+      // Debug main process
+      // You can attach a debugger to the process started by npm scripts `app`.
+      // Usage:
+      // 1. $ yarn app (or npm run app)
+      // 2. run this
+      // If you use this way, cannot debug renderer process by "Attach Debugger Renderer Process".
+      "name": "Attach Debugger Main Process",
+      "request": "attach",
+      "type": "node",
+      "port": 5858
+    }
+  ],
+  "compounds": [
+    {
+      // You need to run npm script "start"
+      "name": "Launch Debugger Electron",
+      // NOTE: preLaunchTask doesn't work well
+      // "preLaunchTask": "npm: start"
+      "configurations": [
+        "Launch Debugger Main Process",
+        "Attach Debugger Renderer Process"
+      ]
+    },
+    {
+      // 💡 Recommend this way
+      // You need to run npm script "electron:dev"
+      "name": "💡 Attach Debugger Electron",
+      "configurations": [
+        "Attach Debugger Main Process",
+        "Attach Debugger Renderer Process"
+      ]
+    }
+  ]
+}

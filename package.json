@@ -1,6 +1,6 @@
 {
-  "name": "demo6",
-  "version": "0.1.0",
+  "name": "user-data-store-demo",
+  "version": "0.1.4",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.4",
@@ -12,10 +12,13 @@
     "@types/react-dom": "^16.9.8",
     "electron-is-dev": "^1.2.0",
     "electron-reload": "^1.5.0",
+    "electron-store": "5.2.0",
+    "localforage": "^1.9.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-scripts": "4.0.1",
     "typescript": "^4.0.3",
+    "user-data-store": "git+https://github.com/srymh/user-data-store#v0.1.5",
     "web-vitals": "^0.2.4"
   },
   "scripts": {
@@ -49,8 +52,8 @@
   "homepage": ".",
   "main": "build/electron/main.js",
   "build": {
-    "appId": "srymh.cra-template-typescript-electron",
-    "productName": "CRA Template Typescript Electron",
+    "appId": "srymh.user-data-store-demo",
+    "productName": "User Data Store Demo",
     "copyright": "Copyright © 2020 srymh",
     "extends": null,
     "files": [

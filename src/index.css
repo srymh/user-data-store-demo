@@ -11,3 +11,38 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+button {
+  border: 1px solid #61dafb;
+  background-color: #282c34;
+  color: white;
+  cursor: pointer;
+  margin: 0;
+}
+button:hover {
+  background-color: #5b657a;
+  color: white;
+}
+button:active {
+  background-color: #a3b3d8;
+  color: white;
+}
+
+select {
+  appearance: none;
+  -webkit-appearance: none;
+  border: 1px solid #61dafb;
+  background-color: #282c34;
+  color: white;
+  cursor: pointer;
+  margin: 0;
+  padding: 0 3px;
+}
+select:hover {
+  background-color: #3c4250;
+  color: white;
+}
+
+input {
+  width: 100%;
+}

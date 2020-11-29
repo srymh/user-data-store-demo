@@ -1,6 +1,32 @@
 import {app, BrowserWindow, ipcMain} from 'electron';
-import * as path from 'path';
-import * as isDev from 'electron-is-dev';
+import path from 'path';
+import isDev from 'electron-is-dev';
+import {UserDataStore} from 'user-data-store';
+import {
+  ElectronStoreDriver,
+  ElectronStoreDriverOptions,
+} from 'user-data-store/dist-cjs/drivers/ElectronStoreDriver';
+
+// Example
+type Student = {
+  name: string;
+  checked: boolean;
+};
+
+const userDataStore = new UserDataStore<
+  Student,
+  ElectronStoreDriverOptions<Student>
+>({
+  driver: ElectronStoreDriver,
+  driverOptions: {
+    // cwd: "path/to/your/data",
+    // fileExtension: "jsn", // ただの例
+  },
+  name: 'School',
+  storeName: 'Student',
+  provideKey: (x) => x.name,
+  downloadJsonFile: (_name, _text) => {},
+});
 
 let win: BrowserWindow | null = null;
 
@@ -59,7 +85,42 @@ app.on('activate', () => {
   }
 });
 
-ipcMain.handle('APP_hello', (event, message) => {
-  console.log(message);
-  return 'pong';
+ipcMain.handle('APP_SetItem', async (_event, message) => {
+  if (message.key !== undefined) {
+    const result = await userDataStore.setItem(message.value, message.key);
+    return result;
+  } else {
+    const result = await userDataStore.setItem(message.value);
+    return result;
+  }
+});
+
+ipcMain.handle('APP_GetItem', async (_event, message) => {
+  const result = await userDataStore.getItem(message.key);
+  return result;
+});
+
+ipcMain.handle('APP_GetItems', async (_event, _message) => {
+  const result = await userDataStore.getItems();
+  return result;
+});
+
+ipcMain.handle('APP_RemoveItem', async (_event, message) => {
+  const result = await userDataStore.removeItem(message.key);
+  return result;
+});
+
+ipcMain.handle('APP_ExportAsJson', async (_event, _message) => {
+  const result = await userDataStore.exportAsJson();
+  return result;
+});
+
+ipcMain.handle('APP_ExportAsJsonFile', async (_event, _message) => {
+  const result = await userDataStore.exportAsJsonFile();
+  return result;
+});
+
+ipcMain.handle('APP_ImportJson', async (_event, message) => {
+  const result = await userDataStore.importJson(message.json);
+  return result;
 });
